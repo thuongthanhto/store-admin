@@ -1,15 +1,91 @@
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 function App() {
+   
   return (
-    <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-    <div className="flex-shrink-0">
-      <img className="h-12 w-12" src="https://www.airdrop.realrealm.io/static/media/logo.80245b99.png" alt="ChitChat Logo" />
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+function Home() {
+  return <h2>Home</h2>;
+}
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Topics() {
+  let match = useRouteMatch();
+
+  return (
     <div>
-      <div className="text-xl font-medium text-black">ChitChat</div>
-      <p className="text-gray-500">You have a new message!</p>
+      <h2>Topics</h2>
+
+      <ul>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>
+            Props v. State
+          </Link>
+        </li>
+      </ul>
+
+      {/* The Topics page has its own <Switch> with more routes
+          that build on the /topics URL path. You can think of the
+          2nd <Route> here as an "index" page for all topics, or
+          the page that is shown when no topic is selected */}
+      <Switch>
+        <Route path={`${match.path}/:topicId`}>
+          <Topic />
+        </Route>
+        <Route path={match.path}>
+          <h3>Please select a topic.</h3>
+        </Route>
+      </Switch>
     </div>
-  </div>
   );
 }
 
+function Topic() {
+  let { topicId } = useParams();
+  return <h3>Requested topic ID: {topicId}</h3>;
+}
 export default App;

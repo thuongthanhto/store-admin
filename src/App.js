@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Home from './components/Home';
 
 function App() {
    
@@ -34,9 +35,7 @@ function App() {
     </Router>
   );
 }
-function Home() {
-  return <h2 className="mt-5 text-center">Home</h2>;
-}
+
 
 function About() {
   return <h2 className="mt-5 text-center">About</h2>;
